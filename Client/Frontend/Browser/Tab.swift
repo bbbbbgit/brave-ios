@@ -512,6 +512,7 @@ class Tab: NSObject {
             return
         }
 
+        self.playlistItems.value = []
         self.urlDidChangeDelegate?.tab(self, urlDidChangeTo: url)
     }
 

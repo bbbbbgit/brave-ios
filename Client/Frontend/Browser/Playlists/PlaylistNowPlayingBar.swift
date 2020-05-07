@@ -219,9 +219,7 @@ class NowPlayingBar: UIView {
             infoStackView.addArrangedSubview(mediaInfoStackView)
         }
         
-        buttonStackView.addArrangedSubview(createSeparator())
         buttonStackView.addArrangedSubview(expandButton)
-        buttonStackView.addArrangedSubview(createSeparator())
         buttonStackView.addArrangedSubview(closeButton)
     }
     
@@ -229,7 +227,7 @@ class NowPlayingBar: UIView {
     
     @objc
     private func onAddToPlaylist(_ gestureRecognizer: UIGestureRecognizer) {
-        if state == .add || state == .addNowPlaying {
+        if state == .add {
             delegate?.onAddToPlaylist()
         } else {
             delegate?.onExpand()

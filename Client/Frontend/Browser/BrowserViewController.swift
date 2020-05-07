@@ -3530,10 +3530,15 @@ extension BrowserViewController: NowPlayingBarDelegate {
             let items = tab.playlistItems.value
             if items.count > 1 {
                 let controller = PlaylistMultipleSelectionController(tabManager: self.tabManager)
-                self.present(controller, animated: true, completion: nil)
-            } else {
-                let controller = UINavigationController(rootViewController: PlaylistViewController(tabManager: self.tabManager))
-                self.present(controller, animated: true, completion: nil)
+                self.present(controller, animated: false, completion: nil)
+            } else if let item = items.first {
+                Playlist.shared.addItem(item: item, cachedData: nil) { [weak self] in
+                    DispatchQueue.main.async {
+                        guard let self = self else { return }
+                        CarplayMediaManager.shared.updateItems()
+                        self.tabManager.allTabs.forEach({ $0.playlistItems.refresh() })
+                    }
+                }
             }
         }
     }

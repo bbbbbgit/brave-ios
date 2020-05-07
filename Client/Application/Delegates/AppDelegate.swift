@@ -275,7 +275,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
         
         AdblockResourceDownloader.shared.startLoading()
         
-        CarplayMediaManager.shared.updateItems()
+//        CarplayMediaManager.shared.updateItems()
       
         return shouldPerformAdditionalDelegateHandling
     }
