@@ -171,7 +171,7 @@ open class FaviconFetcher: NSObject, XMLParserDelegate {
                 return self.parseHTMLForFavicons(url)
             }
 
-            for link in root.xpath("//head//link[contains(@rel, 'icon')]") {
+            for link in root.xpath("//head//link[contains(@rel, 'apple-touch-icon')]") {
                 guard let href = link["href"] else {
                     continue //Skip the rest of the loop. But don't stop the loop
                 }
@@ -182,10 +182,10 @@ open class FaviconFetcher: NSObject, XMLParserDelegate {
                 }
 
                 // If we haven't got any options icons, then use the default at the root of the domain.
-                if let url = NSURL(string: "/favicon.ico", relativeTo: url as URL), icons.isEmpty, let absoluteString = url.absoluteString {
-                    let icon = Favicon(url: absoluteString)
-                    icons = [icon]
-                }
+//                if let url = NSURL(string: "/favicon.ico", relativeTo: url as URL), icons.isEmpty, let absoluteString = url.absoluteString {
+//                    let icon = Favicon(url: absoluteString)
+//                    icons = [icon]
+//                }
 
             }
             return deferMaybe(icons)
@@ -226,26 +226,6 @@ open class FaviconFetcher: NSObject, XMLParserDelegate {
             return deferMaybe(FaviconFetcherErrorType(description: "Invalid URL \(url)"))
         }
 
-        return deferred
-    }
-
-    // Returns a single Favicon UIImage for a given URL
-    class func fetchFavImageForURL(forURL url: URL, profile: Profile) -> Deferred<Maybe<UIImage>> {
-        let deferred = Deferred<Maybe<UIImage>>()
-        FaviconFetcher.getForURL(url.domainURL).uponQueue(.main) { result in
-            guard let favicons = result.successValue, let favicon = favicons.first, let faviconURL = favicon.url.asURL else {
-                return deferred.fill(Maybe(failure: FaviconError()))
-            }
-
-            WebImageCacheWithNoPrivacyProtectionManager.shared.load(from: faviconURL) { image, _, _, _, _ in
-                guard let image = image else {
-                    deferred.fill(Maybe(failure: FaviconError()))
-                    return
-                }
-                
-                deferred.fill(Maybe(success: image))
-            }
-        }
         return deferred
     }
 

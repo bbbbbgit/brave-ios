@@ -84,13 +84,13 @@ extension UIImageView {
     */
     private func color(forImage image: UIImage, andURL url: URL, completed completionBlock: ((UIColor, URL?) -> Void)? = nil) {
         guard let domain = url.baseDomain else {
-            self.backgroundColor = .gray
+//            self.backgroundColor = .gray
             completionBlock?(UIColor.Photon.grey50, url)
             return
         }
 
         if let color = FaviconFetcher.colors[domain] {
-            self.backgroundColor = color
+//            self.backgroundColor = color
             completionBlock?(color, url)
         } else {
             image.getColors(scaleDownSize: CGSize(width: 25, height: 25)) {colors in

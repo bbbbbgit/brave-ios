@@ -87,11 +87,12 @@ class FavoritesSectionProvider: NSObject, NTPObservableSectionProvider {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteCell.identifier, for: indexPath) as! FavoriteCell
         let fav = frc.object(at: IndexPath(item: indexPath.item, section: 0))
         cell.textLabel.text = fav.displayTitle ?? fav.url
-        cell.imageView.setIconMO(fav.domain?.favicon, forURL: URL(string: fav.url ?? ""), scaledDefaultIconSize: CGSize(width: 40, height: 40), completed: { (color, url) in
-            if fav.url == url?.absoluteString {
-                cell.imageView.backgroundColor = color
-            }
-        })
+        cell.imageView.siteURL = URL(string: fav.url ?? "")
+//        cell.imageView.setIconMO(fav.domain?.favicon, forURL: URL(string: fav.url ?? ""), scaledDefaultIconSize: CGSize(width: 40, height: 40), completed: { (color, url) in
+//            if fav.url == url?.absoluteString {
+//                cell.imageView.backgroundColor = color
+//            }
+//        })
         cell.accessibilityLabel = cell.textLabel.text
         cell.longPressHandler = { [weak self] cell in
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)

@@ -206,12 +206,14 @@ extension FavoritesViewController: UICollectionViewDataSource, UICollectionViewD
         let fav = frc.object(at: IndexPath(item: indexPath.item, section: 0))
         cell.textLabel.text = fav.displayTitle ?? fav.url
         cell.textLabel.appearanceTextColor = nil
-        cell.imageView.image = nil
-        cell.imageView.setIconMO(fav.domain?.favicon, forURL: URL(string: fav.url ?? ""), scaledDefaultIconSize: CGSize(width: 40, height: 40), completed: { (color, url) in
-            if fav.url == url?.absoluteString {
-                cell.imageView.backgroundColor = color
-            }
-        })
+        if let urlString = fav.url, let url = URL(string: urlString) {
+            cell.imageView.siteURL = url
+        }
+//        cell.imageView.setIconMO(fav.domain?.favicon, forURL: URL(string: fav.url ?? ""), scaledDefaultIconSize: CGSize(width: 40, height: 40), completed: { (color, url) in
+//            if fav.url == url?.absoluteString {
+////                cell.imageView.backgroundColor = color
+//            }
+//        })
         cell.accessibilityLabel = cell.textLabel.text
         cell.longPressHandler = { [weak self] cell in
             guard let self = self else { return }
